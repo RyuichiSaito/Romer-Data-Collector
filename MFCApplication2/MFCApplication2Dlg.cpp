@@ -12,6 +12,7 @@
 #include <fstream>
 #include <iomanip>
 #include <shlwapi.h>
+#include <numeric>
 
 #pragma comment(lib, "shlwapi.lib")
 
@@ -35,11 +36,18 @@ RDS_ON_REMOVE_FROM_SERVER(CMFCApplication2Dlg)
 using std::fixed;
 using std::setprecision;
 
+int data_num = 0;
+
 unsigned long iter = 0;
+unsigned long cnt = 0;
+
 bool      run_flag = FALSE;
-const int size_x = 10000000;
+const int size_x = 2000000;
+const int size_xcur = 10000;
 const int size_y = 11;
 long double Memo[size_x][size_y];
+long double Data[size_x][(size_y - 1)*2];
+long double Cur[size_xcur][size_y];
 
 // アプリケーションのバージョン情報に使われる CAboutDlg ダイアログ
 
@@ -221,6 +229,13 @@ void CMFCApplication2Dlg::OnBnClickedButton1()
 	{	
 		// output csv
 		CString pathName = dlg.GetPathName();
+		CStringA pathName_(pathName.GetBuffer(0));
+		std::string fullpath = pathName_.GetBuffer(0);
+
+		int ext_i = fullpath.find_last_of(".");
+		std::string filename = fullpath.substr(0, ext_i);
+		filename += "_describe.csv";
+
 
 		// chk file exist
 		int retval = PathFileExists(pathName);
@@ -240,6 +255,18 @@ void CMFCApplication2Dlg::OnBnClickedButton1()
 		}
 		data_file << std::endl;
 		data_file.close();
+
+
+		// ファイル出力用のオブジェクトを作成
+		std::ofstream data_file_2(filename);
+		for (int i = 0; i < data_num; i++) {
+			for (int j = 0; j < (size_y-1)*2; j++) {
+				data_file_2 << fixed << setprecision(15) << Data[i][j] << ",";
+			}
+			data_file_2 << "\n";
+		}
+		data_file_2 << std::endl;
+		data_file_2.close();
 	}
 	else
 	{
@@ -255,19 +282,71 @@ void CMFCApplication2Dlg::OnBnClickedButton2()
 		}
 	}
 	iter = 0;
+
+	// reset cur
+	for (int i = 0; 0 < i < cnt + 1; i++) {
+		for (int j = 0; j < 10; j++) {
+			Cur[i][j] = 0;
+		}
+	}
+	cnt = 0;
 }
 
-// Button3 イベントハンドラ
+// Button3 イベントハンドラ 
 void CMFCApplication2Dlg::OnBnClickedButton3()
 {
 	run_flag = TRUE;
 }
 
 
-// Button4 イベントハンドラ
+// Button4 イベントハンドラ (Stop Button)
 void CMFCApplication2Dlg::OnBnClickedButton4()
 {
 	run_flag = FALSE;
+
+
+	// data describe
+	
+
+	for (int i = 0; i < iter-1; i++) {
+		if (Memo[i][0] && Memo[i + 1][0]) {
+			// data store
+			for (int j = 0; j < 10; j++) {
+				Cur[cnt][j] = Memo[i][j + 1];
+			}
+			cnt++;
+			// データが途切れた時
+		}
+		else if (cnt == 0) {
+			continue;
+		}
+		else {
+			// 統計量の計算
+			for (int j = 0; j < 10; j++) {
+				double ave = 0.0, var = 0.0;
+				for (int ii = 0; ii < cnt; ii++) {
+					ave += Cur[ii][j];
+					var += Cur[ii][j] * Cur[ii][j];
+				}
+				ave /= cnt;
+				var = var / cnt - ave * ave;
+				Data[data_num][j] = ave;
+				Data[data_num][j + 10] = var;
+			}
+			data_num++;
+
+
+			// reset cur
+			for (int ii = 0; ii < cnt+1; ii++) {
+				for (int j = 0; j < 10; j++) {
+					Cur[ii][j] = 0;
+				}
+			}
+			cnt = 0;
+		}
+			
+	}
+
 }
 
 
