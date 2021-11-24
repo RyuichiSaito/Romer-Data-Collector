@@ -259,6 +259,10 @@ void CMFCApplication2Dlg::OnBnClickedButton1()
 
 		// ファイル出力用のオブジェクトを作成
 		std::ofstream data_file_2(filename);
+		data_file_2 << "X mean,Y mean,Z mean,A1 mean,A2 mean,A3 mean,A4 mean,A5 mean,A6 mean,A7 mean,";
+		data_file_2 << "X std,Y std,Z std,A1 std,A2 std,A3 std,A4 std,A5 std,A6 std,A7 std";
+		data_file_2 << "\n";
+
 		for (int i = 0; i < data_num; i++) {
 			for (int j = 0; j < (size_y-1)*2; j++) {
 				data_file_2 << fixed << setprecision(15) << Data[i][j] << ",";
