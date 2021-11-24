@@ -26,7 +26,6 @@ MFCベースに開発されているので環境によっては動かない可�
 
 * 作成者 : Ryuichi Saito
 * 所属   : Hiroshima-univ. 
-* E-mail : b185132~
 
 
 # License
