@@ -23,7 +23,7 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV サポート
 
-	CString m_strXPosition_;
+	CString m_strXPosition;
 	CString m_strYPosition;
 	CString m_strZPosition;
 
@@ -35,6 +35,10 @@ public:
 	CString m_strF_angle;
 	CString m_strG_angle;
 
+	CString m_strXPosition_tool;
+	CString m_strYPosition_tool;
+	CString m_strZPosition_tool;
+
 	CString	m_strEvent;
 	CString	m_strArmStatus;
 	CString m_strProbe;
@@ -42,15 +46,14 @@ public:
 	BOOL		m_bButton1State;
 	BOOL		m_bButton2State;
 	BOOL		m_bButton3State;
-	BOOL		m_bEventSyncd;
 	BOOL		m_bServerAvailable;
-
-	afx_msg void OnTimer(UINT nIDEvent);
+	BOOL		m_bEventSyncd;
+	
+	//afx_msg void OnTimer(UINT nIDEvent);
 
 // 実装
 protected:
 	HICON m_hIcon;
-
 
 	RDS_ADD_VARIABLES
 	// 生成された、メッセージ割り当て関数
@@ -59,6 +62,7 @@ protected:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+	afx_msg void OnTimer(UINT nIDEvent);
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnEnChangestrxposition();
