@@ -21,7 +21,6 @@ slnファイルをVisual Studioで開いてビルドする.
  
 MFCベースで開発されているので環境によっては動かない可能性あり．
 
-その場合，必要なdllファイルを各自で用意してください．
  
 # Author
 
@@ -31,4 +30,4 @@ MFCベースで開発されているので環境によっては動かない可�
 
 # License
 
-"romer-data-collecter" is Confidential.
+"Romer-Data-Collector" is Confidential.
