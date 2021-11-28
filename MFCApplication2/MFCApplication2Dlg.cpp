@@ -336,6 +336,9 @@ void CMFCApplication2Dlg::OnBnClickedButton4()
 	
 
 	for (int i = 0; i < iter-1; i++) {
+		if (iter == 0) {
+			break;
+		}
 		if (Memo[i][0] && Memo[i + 1][0]) {
 			// data store
 			for (int j = 0; j < 10; j++) {
