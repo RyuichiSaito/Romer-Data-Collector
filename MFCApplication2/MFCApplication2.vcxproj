@@ -187,7 +187,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="data_describe.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MFCApplication2.h" />
     <ClInclude Include="MFCApplication2Dlg.h" />
@@ -198,7 +197,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="data_describe.cpp" />
     <ClCompile Include="MFCApplication2.cpp" />
     <ClCompile Include="MFCApplication2Dlg.cpp" />
     <ClCompile Include="pch.cpp">
