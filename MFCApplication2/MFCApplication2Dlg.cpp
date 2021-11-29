@@ -106,9 +106,9 @@ CMFCApplication2Dlg::CMFCApplication2Dlg(CWnd* pParent /*=nullptr*/)
 	, m_bButton2State(FALSE)
 	, m_bServerAvailable(FALSE)
 	, m_bEventSyncd(FALSE)
-	, m_strXPosition_tool(_T("0"))
-	, m_strYPosition_tool(_T("0"))
-	, m_strZPosition_tool(_T("0"))
+	//, m_strXPosition_tool(_T("0"))
+	//, m_strYPosition_tool(_T("0"))
+	//, m_strZPosition_tool(_T("0"))
 {	
 	// Initialize RDS variables
 	// Use RDS_INITIALIZE_EXT is you've got an authentication key provided by Romer
@@ -129,9 +129,9 @@ void CMFCApplication2Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT8, m_strE_angle);
 	DDX_Text(pDX, IDC_EDIT9, m_strF_angle);
 	DDX_Text(pDX, IDC_EDIT10, m_strG_angle);
-	DDX_Text(pDX, IDC_EDIT11, m_strXPosition_tool);
-	DDX_Text(pDX, IDC_EDIT12, m_strYPosition_tool);
-	DDX_Text(pDX, IDC_EDIT13, m_strZPosition_tool);
+	//DDX_Text(pDX, IDC_EDIT11, m_strXPosition_tool);
+	//DDX_Text(pDX, IDC_EDIT12, m_strYPosition_tool);
+	//DDX_Text(pDX, IDC_EDIT13, m_strZPosition_tool);
 	DDX_Check(pDX, IDC_CHECK1, m_bButton2State);
 	DDX_Check(pDX, IDC_CHECK2, m_bServerAvailable);
 	DDX_Check(pDX, IDC_CHECK3, m_bEventSyncd);
@@ -253,6 +253,7 @@ void CMFCApplication2Dlg::OnBnClickedButton1()
 		std::string fullpath = pathName_.GetBuffer(0);
 
 		int ext_i = fullpath.find_last_of(".");
+
 		std::string filename = fullpath.substr(0, ext_i);
 		filename += "_describe.csv";
 
@@ -265,14 +266,29 @@ void CMFCApplication2Dlg::OnBnClickedButton1()
 			}
 		}
 
+		//get text dialog data 
+		GetDlgItemText(IDC_EDIT11, m_strXPosition_tool);
+		GetDlgItemText(IDC_EDIT12, m_strYPosition_tool);
+		GetDlgItemText(IDC_EDIT13, m_strZPosition_tool);
+		
+		CStringA m_strXPosition_tool_(m_strXPosition_tool.GetBuffer(0));
+		CStringA m_strYPosition_tool_(m_strYPosition_tool.GetBuffer(0));
+		CStringA m_strZPosition_tool_(m_strZPosition_tool.GetBuffer(0));
+
+		std::string tool_Xpos = m_strXPosition_tool_.GetBuffer(0);
+		std::string tool_Ypos = m_strYPosition_tool_.GetBuffer(0);
+		std::string tool_Zpos = m_strZPosition_tool_.GetBuffer(0);
+
 		// ファイル出力用のオブジェクトを作成
 		std::ofstream data_file(pathName);
 		data_file << "Button Status, X,Y,Z,A1,A2,A3,A4,A5,A6,A7,X tool,Y tool,Z tool";
+		data_file << "\n";
+
 		for (int i = 0; i < iter; i++) {
 			for (int j = 0; j < size_y; j++) {
 				data_file << fixed << setprecision(15) << Memo[i][j] << ",";
-				data_file << m_strXPosition_tool << "," << m_strYPosition_tool << "," << m_strZPosition_tool << ",";
 			}
+			data_file << tool_Xpos << "," << tool_Ypos << "," << tool_Zpos << ",";
 			data_file << "\n";
 		}
 		data_file << std::endl;
@@ -285,11 +301,12 @@ void CMFCApplication2Dlg::OnBnClickedButton1()
 		data_file_2 << "X std,Y std,Z std,A1 std,A2 std,A3 std,A4 std,A5 std,A6 std,A7 std,X tool,Y tool,Z tool";
 		data_file_2 << "\n";
 
+
 		for (int i = 0; i < data_num; i++) {
 			for (int j = 0; j < (size_y-1)*2; j++) {
 				data_file_2 << fixed << setprecision(15) << Data[i][j] << ",";
-				data_file_2 << m_strXPosition_tool << "," << m_strYPosition_tool << "," << m_strZPosition_tool << ",";
 			}
+			data_file_2 << tool_Xpos << "," << tool_Ypos << "," << tool_Zpos << ",";
 			data_file_2 << "\n";
 		}
 		data_file_2 << std::endl;
@@ -389,17 +406,17 @@ void CMFCApplication2Dlg::OnBnClickedButton4()
 // RDS_VALID_DATA is automatically called when program receives a "valid" RDS event
 void CMFCApplication2Dlg::RDS_SYNCED_DATA(sRDSPosition& p)
 {	
-	m_strXPosition.Format(_T("%12.4f"), p.ProbeXYZ[RDS_X]);
-	m_strYPosition.Format(_T("%12.4f"),p.ProbeXYZ[RDS_Y]);
-	m_strZPosition.Format(_T("%12.4f"), p.ProbeXYZ[RDS_Z]);
+	m_strXPosition.Format(_T("%8.3f"), p.ProbeXYZ[RDS_X]);
+	m_strYPosition.Format(_T("%8.3f"),p.ProbeXYZ[RDS_Y]);
+	m_strZPosition.Format(_T("%8.3f"), p.ProbeXYZ[RDS_Z]);
 
-	m_strA_angle.Format(_T("%12.6f"), p.Angles[0]);
-	m_strB_angle.Format(_T("%12.6f"), p.Angles[1]);
-	m_strC_angle.Format(_T("%12.6f"), p.Angles[2]);
-	m_strD_angle.Format(_T("%12.6f"), p.Angles[3]);
-	m_strE_angle.Format(_T("%12.6f"), p.Angles[4]);
-	m_strF_angle.Format(_T("%12.6f"), p.Angles[5]);
-	m_strG_angle.Format(_T("%12.6f"), p.Angles[6]);
+	m_strA_angle.Format(_T("%8.4f"), p.Angles[0]);
+	m_strB_angle.Format(_T("%8.4f"), p.Angles[1]);
+	m_strC_angle.Format(_T("%8.4f"), p.Angles[2]);
+	m_strD_angle.Format(_T("%8.4f"), p.Angles[3]);
+	m_strE_angle.Format(_T("%8.4f"), p.Angles[4]);
+	m_strF_angle.Format(_T("%8.4f"), p.Angles[5]);
+	m_strG_angle.Format(_T("%8.4f"), p.Angles[6]);
 
 	m_bButton2State = p.ButtonsStates[1];
 
@@ -430,17 +447,17 @@ void CMFCApplication2Dlg::RDS_SYNCED_DATA(sRDSPosition& p)
 // RDS_INVALID_DATA is automatically called when program receives an "invalid" RDS event
 void CMFCApplication2Dlg::RDS_UNSYNCED_DATA(sRDSPosition& p)
 {
-	m_strXPosition.Format(_T("%12.4f"), p.ProbeXYZ[RDS_X]);
-	m_strYPosition.Format(_T("%12.4f"), p.ProbeXYZ[RDS_Y]);
-	m_strZPosition.Format(_T("%12.4f"), p.ProbeXYZ[RDS_Z]);
+	m_strXPosition.Format(_T("%8.3f"), p.ProbeXYZ[RDS_X]);
+	m_strYPosition.Format(_T("%8.3f"), p.ProbeXYZ[RDS_Y]);
+	m_strZPosition.Format(_T("%8.3f"), p.ProbeXYZ[RDS_Z]);
 
-	m_strA_angle.Format(_T("%12.6f"), p.Angles[0]);
-	m_strB_angle.Format(_T("%12.6f"), p.Angles[1]);
-	m_strC_angle.Format(_T("%12.6f"), p.Angles[2]);
-	m_strD_angle.Format(_T("%12.6f"), p.Angles[3]);
-	m_strE_angle.Format(_T("%12.6f"), p.Angles[4]);
-	m_strF_angle.Format(_T("%12.6f"), p.Angles[5]);
-	m_strG_angle.Format(_T("%12.6f"), p.Angles[6]);
+	m_strA_angle.Format(_T("%8.4f"), p.Angles[0]);
+	m_strB_angle.Format(_T("%8.4f"), p.Angles[1]);
+	m_strC_angle.Format(_T("%8.4f"), p.Angles[2]);
+	m_strD_angle.Format(_T("%8.4f"), p.Angles[3]);
+	m_strE_angle.Format(_T("%8.4f"), p.Angles[4]);
+	m_strF_angle.Format(_T("%8.4f"), p.Angles[5]);
+	m_strG_angle.Format(_T("%8.4f"), p.Angles[6]);
 
 	m_bButton2State = p.ButtonsStates[1];
 
@@ -480,14 +497,14 @@ void CMFCApplication2Dlg::OnTimer(UINT nIDEvent)
 void CMFCApplication2Dlg::RDS_SERVER_UP(void)
 {
 	MessageBox(L"Server is up !");
-	//m_bServerAvailable = TRUE;
+	m_bServerAvailable = TRUE;
 }
 
 // RDS_SERVER_DOWN is called when application is disconnected from service
 void CMFCApplication2Dlg::RDS_SERVER_DOWN(void)
 {
 	MessageBox(L"Server is down !");
-	//m_bServerAvailable = FALSE;
+	m_bServerAvailable = FALSE;
 }
 
 // RDS_PROBE_DATA is automatically called when probe changes
@@ -495,7 +512,13 @@ void CMFCApplication2Dlg::RDS_PROBE_DATA(sRDSProbe& probe)
 {
 	m_strEvent = "RDS_PROBE_DATA event";
 
-	m_strProbe.Format(_T("Index=%ld, Name=%ls, Type=%ls"),probe.Index, probe.Name, probe.TypeName);
+	//(LPCTSTR)m_strProbe
+	CString probe_Name;
+	CString probe_TypeName;
+	probe_Name = probe.Name;
+	probe_TypeName = probe.TypeName;
+
+	m_strProbe.Format(_T("Index=%ld, Name=%s, Type=%s"), probe.Index, probe_Name, probe_TypeName);
 
 	UpdateData(FALSE);
 }
