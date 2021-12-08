@@ -328,12 +328,19 @@ void CMFCApplication2Dlg::OnBnClickedButton2()
 	iter = 0;
 
 	// reset cur
-	for (int i = 0; 0 < i < cnt + 1; i++) {
+	for (int i = 0; i < cnt + 1; i++) {
 		for (int j = 0; j < 10; j++) {
 			Cur[i][j] = 0;
 		}
 	}
 	cnt = 0;
+
+	for (int i = 0; i < data_num + 1; i++) {
+		for (int j = 0; j < (size_y - 1) * 2; j++) {
+			Data[i][j] = 0;
+		}
+	}
+	data_num = 0;
 }
 
 // Button3 イベントハンドラ 
