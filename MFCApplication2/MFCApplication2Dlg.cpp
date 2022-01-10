@@ -384,7 +384,7 @@ void CMFCApplication2Dlg::OnBnClickedButton4()
 				}
 				ave /= cnt;
 				var = var / cnt - ave * ave;
-				Data[data_num][j] = ave;
+				Data[data_num][j] = Cur[0][j]; // push first data
 				Data[data_num][j + 10] = var;
 			}
 			data_num++;
