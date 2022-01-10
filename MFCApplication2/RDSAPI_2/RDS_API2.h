@@ -367,8 +367,7 @@ struct sRDSPosition
 	double	ArmXYZ[3];											// Arm XYZ position (probe attachment)
 	double	ArmMatrix[3][3];								// Arm matrix
 
-	double	Angles[7];						// Calculated angles
-	double  EncoderValues[7];  // encoder data
+	double	Angles[RDS_MAX_AXIS];					// Calculated angles
 
 	dword		VertexID;												// ID captured by Vertex probe
 	dword		AnalogValues[3];								// Analog values (UDTX, UDTY, PLA)
