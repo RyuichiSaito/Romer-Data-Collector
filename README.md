@@ -7,28 +7,28 @@ RDS APIを用いてAACMMからデータを収集します．
 * RDS API : v0.3.7 
 
 
-# Requirement
+## Requirement
  
 * RDS Agent : v5.4.1 (Nikon edition)
 * Visual Studio 2019
 
 
-# Usage
+## Usage
 
 slnファイルをVisual Studioで開いてビルドする.
 
 
-# Note
+## Note
  
 MFCベースで開発されているので環境によっては動かない可能性あり．
 
  
-# Author
+## Author
 
 * 作成者 : Ryuichi Saito
 * 所属   : Hiroshima-univ. 
 
 
-# License
+## License
 
 "Romer-Data-Collector" is Confidential.
