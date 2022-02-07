@@ -29,6 +29,3 @@ MFCベースで開発されているので環境によっては動かない可�
 * 所属   : Hiroshima-univ. 
 
 
-## License
-
-"Romer-Data-Collector" is Confidential.
