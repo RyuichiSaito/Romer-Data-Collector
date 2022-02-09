@@ -1,6 +1,7 @@
 # Romer-Data-Collector
 
 ・研究用  
+
 MFCをベースに開発したAACMMデータ収集ソフトです．<br>
 RDS APIを用いてAACMMからデータを収集します．
 
