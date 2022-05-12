@@ -8,7 +8,6 @@ RDS APIを用いてCMMからデータを収集します．
 使用したAPI
 * RDS API : v0.3.7 
 
-
 ## Requirement
  
 * RDS Agent : v5.4.1 (Nikon edition)
